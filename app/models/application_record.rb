@@ -11,7 +11,7 @@ class ApplicationRecord < ActiveRecord::Base
     schema = load_validation_schema
     return unless schema
 
-    result = schema.call(attributes.symbolize_keys)
+    result = schema.new.call(attributes.symbolize_keys)
     result.errors.each do |error|
       errors.add(error.path.first, error.text)
     end
