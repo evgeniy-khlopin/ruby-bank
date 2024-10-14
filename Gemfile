@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+gem 'dry-validation'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '>= 5.0'
