@@ -1,0 +1,22 @@
+- account = @user.bank_accounts.first
+div.container.mx-auto.mt-8.px-4.bg-gray-200
+
+  div.rounded-xl.shadow-neumorph.p-6.mb-8.max-w-4xl.mx-auto
+    h2.text-xl.font-bold.mb-4.text-gray-800 Bank Accounts
+    p.text-gray-600 Total accounts: #{@user.bank_accounts.size}
+
+  div.flex.justify-center.gap-8.max-w-4xl.mx-auto
+    div.rounded-xl.shadow-neumorph.p-6.w-1/2
+      h3.text-lg.font-semibold.mb-2.text-gray-800 Account details
+      .text-gray-600
+        p Account Number: #{account.account_number}
+        p Balance: #{number_to_currency(account.balance)}
+
+    div.rounded-xl.shadow-neumorph.p-6.w-1/2.overflow-y-auto.max-h-96.scrollbar-visible.divide-y.divide-gray-300
+      h3.text-lg.font-semibold.mb-2.text-gray-800 Transactions
+      - account.transactions.each do |transaction|
+        div.text-gray-500.text-sm.mb-2.py-2
+          p Transaction Number: #{transaction.transaction_number}
+          p Type: #{transaction.transaction_type.humanize}
+          p Amount: #{number_to_currency(transaction.amount)}
+          p Details: #{transaction.details}
