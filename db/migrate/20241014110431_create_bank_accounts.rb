@@ -9,7 +9,6 @@ class CreateBankAccounts < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    # Add a unique index for account_number
     add_index :bank_accounts, :account_number, unique: true
   end
 end
