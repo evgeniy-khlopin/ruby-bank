@@ -23,9 +23,5 @@ module BankingApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.generators do |g|
-      g.test_framework :rspec, fixture: false  # Disable fixtures
-      g.factory_bot true                       # Use FactoryBot for factory generation
-    end
   end
 end
