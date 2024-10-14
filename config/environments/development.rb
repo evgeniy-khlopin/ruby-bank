@@ -73,4 +73,9 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  if defined?(FactoryBot)
+    FactoryBot.definition_file_paths << Rails.root.join('spec', 'factories')
+    FactoryBot.find_definitions
+  end
 end
