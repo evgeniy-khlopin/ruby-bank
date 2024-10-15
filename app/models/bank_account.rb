@@ -12,10 +12,19 @@
 #
 class BankAccount < ApplicationRecord
   belongs_to :user
-  has_many :outgoing_transactions, class_name: 'BankTransaction', foreign_key: 'from_bank_account_id'
-  has_many :incoming_transactions, class_name: 'BankTransaction', foreign_key: 'to_bank_account_id'
+  has_many :bank_transactions
 
-  def transactions
-    (outgoing_transactions + incoming_transactions).sort_by(&:created_at)
+  before_validation :generate_account_number, on: :create
+
+  private
+
+  # TODO: investigate more efficient approach to generating account number
+  def generate_account_number
+    return if account_number.present?
+
+    self.account_number = loop do
+      generated_number = Array.new(16) { rand(0..9) }.join
+      break generated_number unless BankAccount.exists?(account_number: generated_number)
+    end
   end
 end

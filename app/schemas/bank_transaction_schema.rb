@@ -4,9 +4,7 @@ class BankTransactionSchema < ApplicationSchema
     required(:transaction_type).filled(:string)
     required(:amount).filled(:decimal)
     required(:balance_before).filled(:decimal)
-    required(:balance_after).filled(:decimal)
-    optional(:from_bank_account_id).maybe(:integer)
-    optional(:to_bank_account_id).maybe(:integer)
+    required(:bank_account_id).filled(:integer)
     optional(:details).maybe(:string)
   end
 
@@ -21,13 +19,7 @@ class BankTransactionSchema < ApplicationSchema
   end
 
 
-  rule(:balance_after) do
+  rule(:balance_before) do
     key.failure('must be greater than or equal to 0') if value.negative?
-  end
-
-  rule(:from_bank_account_id, :to_bank_account_id) do
-    if values[:from_bank_account_id].nil? && values[:to_bank_account_id].nil?
-      key.failure('either from_bank_account_id or to_bank_account_id must be present')
-    end
   end
 end

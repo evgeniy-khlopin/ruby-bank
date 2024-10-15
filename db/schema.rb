@@ -27,14 +27,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_14_112941) do
     t.integer "transaction_type"
     t.string "transaction_number"
     t.decimal "amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "balance_after", precision: 15, scale: 2, default: "0.0"
     t.decimal "balance_before", precision: 15, scale: 2, default: "0.0"
-    t.integer "from_bank_account_id"
-    t.integer "to_bank_account_id"
+    t.integer "bank_account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["from_bank_account_id"], name: "index_bank_transactions_on_from_bank_account_id"
-    t.index ["to_bank_account_id"], name: "index_bank_transactions_on_to_bank_account_id"
+    t.index ["bank_account_id"], name: "index_bank_transactions_on_bank_account_id"
     t.index ["transaction_number"], name: "index_bank_transactions_on_transaction_number", unique: true
   end
 
@@ -47,6 +44,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_14_112941) do
   end
 
   add_foreign_key "bank_accounts", "users"
-  add_foreign_key "bank_transactions", "bank_accounts", column: "from_bank_account_id"
-  add_foreign_key "bank_transactions", "bank_accounts", column: "to_bank_account_id"
+  add_foreign_key "bank_transactions", "bank_accounts"
 end
