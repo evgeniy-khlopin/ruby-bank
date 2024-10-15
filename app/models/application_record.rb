@@ -18,7 +18,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def load_validation_schema
-    schema_name = "#{self.class.name}ValidationSchema"
+    schema_name = "#{self.class.name}Schema"
     return unless Object.const_defined?(schema_name)
 
     Object.const_get(schema_name)

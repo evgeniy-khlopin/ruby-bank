@@ -1,6 +1,4 @@
-require 'dry-validation'
-
-class BankAccountValidationSchema < Dry::Validation::Contract
+class BankAccountSchema < ApplicationSchema
   params do
     required(:account_number).filled(:string)
     required(:currency).filled(:string)
