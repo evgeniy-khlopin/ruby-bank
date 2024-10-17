@@ -1,16 +1,16 @@
 turbo-stream action="update" target="account_details"
   template
-    p.text-gray-800.font-bold.text-6xl.mb-4 = number_to_currency(@bank_account.balance)
+    p.text-gray-800.font-bold.text-6xl.mb-4 = number_to_currency(@bank_account&.balance)
 
     = form_with url: bank_transactions_path, method: :post, local: true do |form|
       label.block.w-full.text-sm.font-medium.text-gray-700 Select bank account
       div data-controller="bank-account-select"
         = form.select :from_bank_account_id, options_for_select(@user.bank_accounts.map { |account| ["#{account.account_number} | #{number_to_currency(account.balance)}", account.id] },
-                selected: @bank_account.id), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md', data: { action: "change->bank-account-select#change" } }
+                selected: @bank_account&.id), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md', data: { action: "change->bank-account-select#change" } }
 
       .mt-4
         label.block.w-full.text-sm.font-medium.text-gray-700 Select account to transfer
-        = form.select :to_bank_account_id, options_for_select(BankAccount.all.reject { |account| account.id == @bank_account.id }.map { |account| ["#{account.account_number} | #{account.user.full_name}", account.id] }), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md' }
+        = form.select :to_bank_account_id, options_for_select(BankAccount.all.reject { |account| account.id == @bank_account&.id }.map { |account| ["#{account.account_number} | #{account.user.full_name}", account.id] }), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md' }
 
       .flex.gap-4.mt-4
         = form.text_field :amount, list: 'amounts', placeholder: 'Enter amount', class: 'w-1/2 mt-1 bg-white border-gray-300 rounded-md'
@@ -23,7 +23,7 @@ turbo-stream action="update" target="transactions"
   template
     turbo-frame#transactions
       .divide-y.divide-gray-300
-        - @bank_account.bank_transactions.reverse.each do |transaction|
+        - @bank_account&.bank_transactions&.reverse&.each do |transaction|
           div.flex.justify-between.items-center.text-gray-500.text-sm.mb-2.py-2
             div
               p.text-md.font-semibold.text-gray-800 #{transaction.transaction_type.humanize}

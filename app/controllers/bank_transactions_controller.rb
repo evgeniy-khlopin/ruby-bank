@@ -1,4 +1,6 @@
 class BankTransactionsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     from_bank_account_id = params[:from_bank_account_id]
     to_bank_account_id = params[:to_bank_account_id]

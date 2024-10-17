@@ -12,7 +12,7 @@
 #
 class BankAccount < ApplicationRecord
   belongs_to :user
-  has_many :bank_transactions
+  has_many :bank_transactions, dependent: :destroy
 
   before_validation :generate_account_number, on: :create
 

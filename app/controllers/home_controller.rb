@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @user = User.includes(bank_accounts: :bank_transactions).find(52)
+    @user = current_user
     @bank_account = @user.bank_accounts.first
   end
 end
