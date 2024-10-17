@@ -12,11 +12,11 @@ module Transaction
 
     attr_reader :bank_account, :transaction_type, :amount, :bank_transaction
 
-    def initialize(amount:, bank_account_id:, transaction_type:)
+    def initialize(amount:, bank_account_id:, transaction_type:, target_bank_account_id: nil)
       @amount = amount
-      @bank_account = BankAccount.find_by(id: bank_account_id)
       @transaction_type = transaction_type
-      @bank_transaction = BankTransaction.new(transaction_type:)
+      @bank_account = BankAccount.find_by(id: bank_account_id)
+      @bank_transaction = BankTransaction.new(transaction_type:, target_bank_account_id:)
     end
 
     def call
@@ -52,7 +52,7 @@ module Transaction
         balance_before: bank_account.balance,
         transaction_number: SecureRandom.uuid
       )
-      bank_transaction.save!
+      bank_transaction.save
     end
   end
 end

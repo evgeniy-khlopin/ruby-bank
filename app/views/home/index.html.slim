@@ -2,37 +2,12 @@ div.container.mx-auto.mt-8.px-4.bg-gray-200
   div.flex.justify-center.gap-8.max-w-4xl.mx-auto
     div.rounded-xl.shadow-neumorph.p-6.w-1/2
       h3.text-lg.font-semibold.mb-2.text-gray-600 Account details
-
-      turbo-frame#account_details
-        p.text-gray-800.font-bold.text-6xl.mb-4 = number_to_currency(@bank_account&.balance)
-
-        = form_with url: bank_transactions_path, method: :post, local: true do |form|
-          label.block.w-full.text-sm.font-medium.text-gray-700 Select bank account
-          div data-controller="bank-account-select"
-            = form.select :from_bank_account_id, options_for_select(@user.bank_accounts.map { |account| ["#{account.account_number} | #{number_to_currency(account.balance)}", account.id] },
-                    selected: @bank_account&.id), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md shadow border-none', data: { action: "change->bank-account-select#change" } }
-
-          .mt-4
-            label.block.w-full.text-sm.font-medium.text-gray-700 Select account for transfer
-            = form.select :to_bank_account_id, options_for_select(BankAccount.all.reject { |account| account.id == @bank_account&.id }.map { |account| ["#{account.account_number} | #{account.user.full_name}", account.id] }), {}, { class: 'w-full mt-1 bg-white border-gray-300 rounded-md shadow border-none' }
-
-          .flex.gap-4.mt-6
-            = form.text_field :amount, list: 'amounts', placeholder: 'Enter amount', class: 'w-1/2 mt-1 bg-white border-gray-300 rounded-md shadow border-none'
-            datalist#amounts
-              - [100, 500, 1000].each do |amount|
-                option value=amount
-            = form.submit 'Transfer  ➤', class: 'w-1/2 mt-1 bg-blue-500 text-white font-bold py-2 px-4 rounded-md'
+      #account_details
+        = render partial: 'shared/account_details', locals: { bank_account: @bank_account }
 
 
 
     div.rounded-xl.shadow-neumorph.p-6.w-1/2.overflow-y-auto.max-h-96
       h3.text-lg.font-semibold.mb-2.text-gray-600 Transactions
-      turbo-frame#transactions
-        .divide-y.divide-gray-300
-          - @bank_account&.bank_transactions&.reverse&.each do |transaction|
-            div.flex.justify-between.items-center.text-gray-500.text-sm.mb-2.py-2
-              div
-                p.text-md.font-semibold.text-gray-800 #{transaction.transaction_type.humanize}
-                p.text-xs #{transaction.created_at.strftime('%d %b %Y, %H:%M')}
-              - amount = number_to_currency(transaction.amount)
-              p.text-md.font-semibold class="#{transaction.incoming? ? 'text-green-800' : 'text-red-800'}" #{transaction.incoming? ? "+#{amount}" : "-#{amount}"}
+      #transactions
+        = render partial: 'shared/transactions_list', locals: { bank_account: @bank_account }

@@ -5,13 +5,14 @@ RSpec.describe UserSchema do
     {
       first_name: 'John',
       last_name: 'Doe',
-      email: 'john.doe@example.com'
+      email: 'john.doe@example.com',
+      password_digest: 'password123'
     }
   end
 
   context 'with valid input' do
     it 'passes validation' do
-      result = UserSchema.new.call(valid_input)
+      result = UserSchema.new.call(valid_input.merge(email: 'new.email@example.com'))
       expect(result.success?).to be(true)
       expect(result.errors.to_h).to be_empty
     end
@@ -48,6 +49,15 @@ RSpec.describe UserSchema do
 
       expect(result.success?).to be(false)
       expect(result.errors.to_h).to include(email: ['is in invalid format'])
+    end
+
+    it 'fails when email is not unique' do
+      create(:user, email: 'john.doe@example.com')
+      input = valid_input.merge(email: 'john.doe@example.com')
+      result = UserSchema.new.call(input)
+
+      expect(result.success?).to be(false)
+      expect(result.errors.to_h).to include(email: ['has already been taken'])
     end
   end
 end

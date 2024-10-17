@@ -5,6 +5,7 @@ class BankTransactionSchema < ApplicationSchema
     required(:amount).filled(:decimal)
     required(:balance_before).filled(:decimal)
     required(:bank_account_id).filled(:integer)
+    optional(:target_bank_account_id).maybe(:integer)
     optional(:details).maybe(:string)
   end
 

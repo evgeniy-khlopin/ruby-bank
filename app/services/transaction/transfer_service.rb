@@ -18,23 +18,24 @@ module Transaction
     end
 
     def call
+      fail!(["can't transfer to the same account"]) if from_bank_account_id == to_bank_account_id
+
       ActiveRecord::Base.transaction do
-        create_transaction(from_bank_account_id, :transfer)
-        create_transaction(to_bank_account_id, :receive)
+        create_transaction(from_bank_account_id, :transfer, to_bank_account_id)
+        create_transaction(to_bank_account_id, :receive, from_bank_account_id)
       end
     end
 
     private
 
-    def create_transaction(bank_account_id, transaction_type)
-      result = CreateTransactionService.call(amount:, bank_account_id:, transaction_type:)
+    def create_transaction(bank_account_id, transaction_type, target_bank_account_id = nil)
+      result = CreateTransactionService.call(amount:, bank_account_id:, transaction_type:, target_bank_account_id:)
 
       fail!(result.errors.full_messages) unless result.success?
     end
 
     def fail!(messages)
       errors.add(:base, "Transaction failed: #{messages.join(', ')}")
-      raise ActiveRecord::Rollback
     end
   end
 end
