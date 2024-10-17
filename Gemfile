@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 gem 'dry-validation'
+gem 'hotwire-rails'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '>= 5.0'
@@ -15,7 +16,6 @@ gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
 gem 'view_component'
-
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
@@ -45,6 +45,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'annotate'
+  gem 'meta_request'
   gem 'pre-commit', require: false
   gem 'rubocop', require: false
   gem 'web-console'
