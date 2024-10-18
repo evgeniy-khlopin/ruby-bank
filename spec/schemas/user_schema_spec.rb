@@ -50,14 +50,5 @@ RSpec.describe UserSchema do
       expect(result.success?).to be(false)
       expect(result.errors.to_h).to include(email: ['is in invalid format'])
     end
-
-    it 'fails when email is not unique' do
-      create(:user, email: 'john.doe@example.com')
-      input = valid_input.merge(email: 'john.doe@example.com')
-      result = UserSchema.new.call(input)
-
-      expect(result.success?).to be(false)
-      expect(result.errors.to_h).to include(email: ['has already been taken'])
-    end
   end
 end

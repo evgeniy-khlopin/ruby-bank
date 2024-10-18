@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :bank_accounts, dependent: :destroy
   has_many :bank_transactions, through: :bank_accounts
 
+  validates :email, uniqueness: true
+
   def full_name
     "#{first_name} #{last_name}"
   end
