@@ -1,10 +1,10 @@
 - transactions = @bank_account&.bank_transactions&.reverse
-- if transactions.any?
+- if transactions.present?
   .divide-y.divide-gray-300
     - transactions.each do |transaction|
       div.flex.justify-between.items-center.text-gray-500.text-sm.mb-2.py-2
         div
-          p.text-md.font-semibold.text-gray-800 #{transaction.target_bank_account&.user&.full_name}
+          p.text-md.font-semibold.text-gray-800 #{transaction.target_bank_account&.user&.full_name || 'Bank credit'}
           p.text-xs #{transaction.created_at.strftime('%d %b %Y, %H:%M')}
         - amount = number_to_currency(transaction.amount)
         p.text-md.font-semibold class="#{transaction.incoming? ? 'text-green-800' : 'text-red-800'}" #{transaction.incoming? ? "+#{amount}" : "-#{amount}"}

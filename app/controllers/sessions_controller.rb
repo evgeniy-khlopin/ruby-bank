@@ -10,8 +10,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to root_path
     else
-      flash.now[:error] = 'Invalid email or password'
-      render turbo_stream: turbo_stream.prepend('flash', partial: 'shared/flash')
+      redirect_to login_path, alert: 'Invalid email or password'
     end
   end
 

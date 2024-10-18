@@ -26,7 +26,7 @@ module Transaction
         update_balance!
         bank_transaction
       end
-    end
+     end
 
     private
 
@@ -52,7 +52,7 @@ module Transaction
         balance_before: bank_account.balance,
         transaction_number: SecureRandom.uuid
       )
-      bank_transaction.save
+      bank_transaction.save!
     end
   end
 end

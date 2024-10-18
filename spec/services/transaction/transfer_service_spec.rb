@@ -48,7 +48,7 @@ RSpec.describe Transaction::TransferService, type: :service do
   describe 'failure due to CreateTransactionService failure' do
     before do
       allow(Transaction::CreateTransactionService).to receive(:call).and_return(
-        double(success?: false, errors: OpenStruct.new(full_messages: ['Transaction error']))
+        double(failure?: true, errors: OpenStruct.new(full_messages: ['Transaction error']))
       )
     end
 

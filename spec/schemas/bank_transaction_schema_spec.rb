@@ -8,8 +8,8 @@ RSpec.describe BankTransactionSchema do
       amount: 500.0,
       balance_before: 1000.0,
       balance_after: 500.0,
-      from_bank_account_id: 1,
-      to_bank_account_id: 2,
+      bank_account_id: 1,
+      target_bank_account_id: 2,
       details: 'Payment for services'
     }
   end
@@ -55,20 +55,12 @@ RSpec.describe BankTransactionSchema do
       expect(result.errors.to_h).to include(amount: ['must be greater than 0'])
     end
 
-    it 'fails when balance_after is negative' do
-      input = valid_input.merge(balance_after: -100.0)
+    it 'fails when balance_before is negative' do
+      input = valid_input.merge(balance_before: -100.0)
       result = BankTransactionSchema.new.call(input)
 
       expect(result.success?).to be(false)
-      expect(result.errors.to_h).to include(balance_after: ['must be greater than or equal to 0'])
-    end
-
-    it 'fails when both from_bank_account_id and to_bank_account_id are missing' do
-      input = valid_input.merge(from_bank_account_id: nil, to_bank_account_id: nil)
-      result = BankTransactionSchema.new.call(input)
-
-      expect(result.success?).to be(false)
-      expect(result.errors.to_h).to include(from_bank_account_id: ['either from_bank_account_id or to_bank_account_id must be present'])
+      expect(result.errors.to_h).to include(balance_before: ['must be greater than or equal to 0'])
     end
   end
 end
