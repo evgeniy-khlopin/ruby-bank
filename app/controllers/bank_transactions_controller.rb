@@ -2,26 +2,44 @@ class BankTransactionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    result = transfer_funds
+
+    if result.success?
+      handle_success_response
+    else
+      handle_error_response(result)
+    end
+  end
+
+  private
+
+  def transfer_funds
     from_bank_account_id = params[:from_bank_account_id]
     to_bank_account_id = params[:to_bank_account_id]
     amount = params[:amount].to_d
 
-    result = Transaction::TransferService.call(
+    Transaction::TransferService.call(
       from_bank_account_id:,
       to_bank_account_id:,
       amount:
     )
+  end
 
-    if result.success?
-      @bank_account = BankAccount.find(from_bank_account_id)
-      @user = @bank_account.user
+  def handle_success_response
+    @bank_account = BankAccount.find(params[:from_bank_account_id])
+    @user = @bank_account.user
 
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to root_path, notice: 'Transfer completed successfully.' }
+    respond_to do |format|
+      format.turbo_stream { flash.now[:notice] = 'Transfer completed successfully' }
+    end
+  end
+
+  def handle_error_response(result)
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:error] = result.errors[:base]&.first
+        render turbo_stream: turbo_stream.prepend('flash', partial: 'shared/flash')
       end
-    else
-      redirect_to root_path, alert: "Transfer failed: #{result.errors.full_messages.join(', ')}"
     end
   end
 end

@@ -13,6 +13,9 @@
 
   <body class="bg-gray-200">
     <%= render partial: "shared/header" %>
+    <div id="flash">
+      <%= render partial: "shared/flash" %>
+    </div>
     <main>
       <%= yield %>
     </main>

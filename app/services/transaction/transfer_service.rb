@@ -19,6 +19,7 @@ module Transaction
 
     def call
       fail!(["can't transfer to the same account"]) if from_bank_account_id == to_bank_account_id
+      fail!(['amount shuold be positive']) if amount <= 0
 
       ActiveRecord::Base.transaction do
         create_transaction(from_bank_account_id, :transfer, to_bank_account_id)

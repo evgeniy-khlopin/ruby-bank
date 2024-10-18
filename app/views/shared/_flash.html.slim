@@ -1,0 +1,6 @@
+- flash.each do |flash_type, message|
+  #flash-card.flex.items-center.mt-16.p-4.rounded-lg.border.absolute.max-w-lg.top-4.left-1/2.transform.-translate-x-1/2.z-50 class=flash_class(flash_type) data-controller="flash"
+    p = message
+    button.relative.top-0.bottom-0.right-0.px-4.py-3 type="button" data-action="click->flash#close"
+      svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
