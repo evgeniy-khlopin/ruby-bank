@@ -10,6 +10,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    redirect_to login_path, alert: 'You must be logged in to access this page.' unless logged_in?
+    redirect_to login_path unless logged_in?
   end
 end
