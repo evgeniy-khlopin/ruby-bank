@@ -1,0 +1,19 @@
+p.text-gray-800.font-bold.text-6xl.mb-4 = number_to_currency(bank_account&.balance)
+
+= form_with url: bank_transactions_path, method: :post, local: true do |form|
+  label.block.w-full.text-sm.font-medium.text-gray-700 Select bank account
+  div data-controller="bank-account-select"
+    = form.select :from_bank_account_id, options_for_select(user_bank_accounts_select_options, selected: bank_account&.id), {},
+            { required: true, class: 'w-full mt-1 bg-white border-gray-300 rounded-md shadow border-none', data: { action: "change->bank-account-select#change" } }
+
+  .mt-4
+    label.block.w-full.text-sm.font-medium.text-gray-700 Select account for transfer
+    = form.select :to_bank_account_id, options_for_select(bank_accounts_select_options(bank_account)), {},
+            { required: true, class: 'w-full mt-1 bg-white border-gray-300 rounded-md shadow border-none' }
+
+  .flex.gap-4.mt-6
+    = form.number_field :amount, min: 1, list: 'amounts', placeholder: 'Enter amount', required: true, class: 'w-1/2 mt-1 bg-white border-gray-300 rounded-md shadow border-none'
+    datalist#amounts
+      - [100, 500, 1000].each do |amount|
+        option value=amount
+    = form.submit 'Transfer  ➤', id: 'transfer_submit_button', class: 'w-1/2 mt-1 bg-blue-500 text-white font-bold py-2 px-4 rounded-md'

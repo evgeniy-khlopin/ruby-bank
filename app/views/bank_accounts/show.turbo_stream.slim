@@ -1,0 +1,7 @@
+turbo-stream action="update" target="account_details"
+  template
+    = render partial: 'shared/account_details', locals: { bank_account: @bank_account }, formats: [:html]
+
+turbo-stream action="update" target="transactions"
+  template
+    = render partial: 'shared/transactions_list', locals: { bank_account: @bank_account }, formats: [:html]

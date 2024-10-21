@@ -1,0 +1,12 @@
+- transactions = transactions_list(bank_account)
+- if transactions.present?
+  .divide-y.divide-gray-300
+    - transactions.each do |transaction|
+      div.flex.justify-between.items-center.text-gray-500.text-sm.mb-2.py-2
+        div
+          p.text-md.font-semibold.text-gray-800 = target_user_name(transaction)
+          p.text-xs = transaction_time(transaction)
+        - amount = number_to_currency(transaction.amount)
+        p.text-md.font-semibold class=transaction_class(transaction) = amount(transaction)
+- else
+  p.text-gray-400.text-md There are no transactions yet

@@ -1,0 +1,8 @@
+header
+  div.container.mx-auto.flex.justify-between.items-center.p-4
+    h1.text-xl.font-bold Ruby Bank
+    nav
+      ul.flex.space-x-4
+        - if logged_in?
+          li
+            = button_to 'Logout', logout_path, method: :delete, class: 'text-red'
