@@ -11,7 +11,7 @@ gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 gem 'simple_command'
 gem 'slim-rails'
 gem 'sprockets-rails'
-gem 'sqlite3', '~> 1.4'
+gem "pg", "~> 1.1"
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
