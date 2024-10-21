@@ -6,7 +6,7 @@ RSpec.describe BankAccountsController, type: :controller do
   render_views
 
   let(:user) { create(:user) }
-  let(:bank_account) { create(:bank_account, user: user) }
+  let(:bank_account) { create(:bank_account, user:) }
 
   before do
     allow(controller).to receive(:authenticate_user!).and_return(true)

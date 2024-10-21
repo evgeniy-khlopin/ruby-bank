@@ -19,7 +19,6 @@ class BankTransactionSchema < ApplicationSchema
     key.failure('must be greater than 0') unless value.positive?
   end
 
-
   rule(:balance_before) do
     key.failure('must be greater than or equal to 0') if value.negative?
   end

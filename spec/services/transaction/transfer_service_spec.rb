@@ -1,4 +1,5 @@
 # spec/services/transaction/transfer_service_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe Transaction::TransferService, type: :service do

@@ -17,7 +17,8 @@ RSpec.describe BankTransactionsController, type: :controller do
   describe 'POST #create' do
     context 'when transfer is successful' do
       it 'creates a new transaction and updates balances' do
-        post :create, params: { from_bank_account_id: from_account.id, to_bank_account_id: to_account.id, amount: 200 }, format: :turbo_stream
+        post :create,
+             params: { from_bank_account_id: from_account.id, to_bank_account_id: to_account.id, amount: 200 }, format: :turbo_stream
 
         expect(assigns(:bank_account)).to eq(from_account)
         expect(assigns(:user)).to eq(user)
@@ -28,11 +29,13 @@ RSpec.describe BankTransactionsController, type: :controller do
 
     context 'when transfer fails' do
       before do
-        allow(Transaction::TransferService).to receive(:call).and_return(OpenStruct.new(success?: false, errors: { base: ['Insufficient balance'] }))
+        allow(Transaction::TransferService).to receive(:call).and_return(OpenStruct.new(success?: false,
+                                                                                        errors: { base: ['Insufficient balance'] }))
       end
 
       it 'renders an error flash message' do
-        post :create, params: { from_bank_account_id: from_account.id, to_bank_account_id: to_account.id, amount: 1500 }, format: :turbo_stream
+        post :create,
+             params: { from_bank_account_id: from_account.id, to_bank_account_id: to_account.id, amount: 1500 }, format: :turbo_stream
 
         expect(flash.now[:error]).to eq('Insufficient balance')
         expect(response.media_type).to eq('text/vnd.turbo-stream.html')

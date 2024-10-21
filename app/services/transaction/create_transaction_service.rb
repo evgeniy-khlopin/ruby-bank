@@ -20,13 +20,13 @@ module Transaction
     end
 
     def call
-      ActiveRecord::Base.transaction do
+      bank_account.with_lock do
         check_balance
         update_bank_transaction!
         update_balance!
-        bank_transaction
       end
-     end
+      bank_transaction
+    end
 
     private
 

@@ -10,43 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_17_155255) do
-  create_table "bank_accounts", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "account_number", null: false
-    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
-    t.string "currency", default: "USD"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_number"], name: "index_bank_accounts_on_account_number", unique: true
-    t.index ["user_id"], name: "index_bank_accounts_on_user_id"
+ActiveRecord::Schema[7.1].define(version: 20_241_017_155_255) do
+  create_table 'bank_accounts', force: :cascade do |t|
+    t.integer 'user_id', null: false
+    t.string 'account_number', null: false
+    t.decimal 'balance', precision: 15, scale: 2, default: '0.0'
+    t.string 'currency', default: 'USD'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['account_number'], name: 'index_bank_accounts_on_account_number', unique: true
+    t.index ['user_id'], name: 'index_bank_accounts_on_user_id'
   end
 
-  create_table "bank_transactions", force: :cascade do |t|
-    t.string "details"
-    t.integer "transaction_type"
-    t.string "transaction_number"
-    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "balance_before", precision: 15, scale: 2, default: "0.0"
-    t.integer "bank_account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "target_bank_account_id"
-    t.index ["bank_account_id"], name: "index_bank_transactions_on_bank_account_id"
-    t.index ["target_bank_account_id"], name: "index_bank_transactions_on_target_bank_account_id"
-    t.index ["transaction_number"], name: "index_bank_transactions_on_transaction_number", unique: true
+  create_table 'bank_transactions', force: :cascade do |t|
+    t.string 'details'
+    t.integer 'transaction_type'
+    t.string 'transaction_number'
+    t.decimal 'amount', precision: 15, scale: 2, default: '0.0'
+    t.decimal 'balance_before', precision: 15, scale: 2, default: '0.0'
+    t.integer 'bank_account_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.integer 'target_bank_account_id'
+    t.index ['bank_account_id'], name: 'index_bank_transactions_on_bank_account_id'
+    t.index ['target_bank_account_id'], name: 'index_bank_transactions_on_target_bank_account_id'
+    t.index ['transaction_number'], name: 'index_bank_transactions_on_transaction_number', unique: true
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "password_digest", null: false
+  create_table 'users', force: :cascade do |t|
+    t.string 'first_name'
+    t.string 'last_name'
+    t.string 'email'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'password_digest', null: false
   end
 
-  add_foreign_key "bank_accounts", "users"
-  add_foreign_key "bank_transactions", "bank_accounts"
-  add_foreign_key "bank_transactions", "bank_accounts", column: "target_bank_account_id"
+  add_foreign_key 'bank_accounts', 'users'
+  add_foreign_key 'bank_transactions', 'bank_accounts'
+  add_foreign_key 'bank_transactions', 'bank_accounts', column: 'target_bank_account_id'
 end
